@@ -21,15 +21,19 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Install wget and unzip
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip || true
+
       - name: Install Allure
         run: |
-          sudo apt-get install -y wget unzip
           wget -q https://github.com/allure-framework/allure2/releases/latest/download/allure-2.22.1.zip -O allure.zip
           unzip allure.zip -d /opt/
           sudo ln -s /opt/allure-2.22.1/bin/allure /usr/bin/allure
 
       - name: Run API tests
-        run:
+        run: |
           cd api_tests
           mvn clean test
 
