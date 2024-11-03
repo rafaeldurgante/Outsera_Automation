@@ -33,9 +33,4 @@ jobs:
       - name: Run E2E tests
         run: |
           cd e2e_tests
-          npx playwright test --headed --reporter=html
-
-      - name: Show Playwright Report
-        run: |
-          cd e2e_tests
-          npx playwright show-report
+          npx playwright test --reporter=html
