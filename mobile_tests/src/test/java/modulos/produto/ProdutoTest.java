@@ -19,7 +19,7 @@ public class ProdutoTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         // Capacidade de aplicação e dispositivo
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("appium:app", "C:\\Users\\Rafael Durgante\\Desktop\\DURGA\\Outsera\\Outsera_Automation_Suite\\mobile_tests\\src\\main\\java\\lojinha-nativa.apk");
+        capabilities.setCapability("appium:app", "C:\\Users\\Rafael Durgante\\Desktop\\DURGA\\Outsera\\Outsera_Tests\\mobile_tests\\src\\main\\java\\lojinha-nativa.apk");
         capabilities.setCapability("appium:appActivity", "com.lojinha.ui.MainActivity");
         capabilities.setCapability("appium:appPackage", "com.lojinha");
         capabilities.setCapability("appium:deviceName", "Custom Phone");
