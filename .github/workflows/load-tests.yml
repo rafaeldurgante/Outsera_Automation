@@ -16,7 +16,8 @@ jobs:
       - name: Instalar K6
         run: |
           echo "Instalando K6..."
-          winget install k6 --source winget
+          sudo apt-get update
+          sudo apt-get install -y k6
 
       - name: Executar teste de carga
         run: |
