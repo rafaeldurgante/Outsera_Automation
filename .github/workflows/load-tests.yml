@@ -17,6 +17,9 @@ jobs:
         run: |
           echo "Instalando K6..."
           sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:kan-zhang/k6
+          sudo apt-get update
           sudo apt-get install -y k6
 
       - name: Executar teste de carga
