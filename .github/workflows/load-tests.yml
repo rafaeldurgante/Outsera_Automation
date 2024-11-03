@@ -13,13 +13,10 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
-      - name: Instalar Dependências
+      - name: Baixar e instalar o K6
         run: |
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository ppa:graphite-project/graphite
-          sudo apt-get update
-          sudo apt-get install -y k6
+          curl -sSL https://github.com/grafana/k6/releases/latest/download/k6-linux-amd64.tar.gz | tar -xz
+          sudo install k6 /usr/local/bin/
 
       - name: Executar teste de carga
         run: |
