@@ -21,38 +21,44 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Install Allure
+        run: |
+          sudo apt-get install -y wget unzip
+          wget -q https://github.com/allure-framework/allure2/releases/latest/download/allure-2.22.1.zip -O allure.zip
+          unzip allure.zip -d /opt/
+          sudo ln -s /opt/allure-2.22.1/bin/allure /usr/bin/allure
+
       - name: Run API tests
-        id: run_tests
+        run:
+          cd api_tests
+          mvn clean test
+
+      - name: Serve Allure Results
         run: |
           cd api_tests
-          mvn clean test | tee mvn_output.log
+          allure serve allure-results
 
-      - name: Generate Allure Results
+      - name: Add Summary of Tests
         run: |
           cd api_tests
-          allure generate allure-results --clean -o allure-report
+          mvn test -Dmaven.test.failure.ignore=true
+          if [ -f target/surefire-reports/*.txt ]; then
+            echo "## Test Summary" >> summary.md
+            echo "" >> summary.md
+            for file in target/surefire-reports/*.txt; do
+              echo "### Results from $file" >> summary.md
+              cat "$file" >> summary.md
+              echo "" >> summary.md
+            done
+            echo "Summary created at summary.md"
+          else
+            echo "No test results found."
+          fi
 
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: api-test-report
-          path: api_tests/allure-report
-
-      - name: Summary of Test Results
-        run: |
-          echo "## Test Results Summary" >> summary.md
-          echo "" >> summary.md
-          echo "Tests run: ${{ steps.run_tests.outputs.tests }}" >> summary.md
-          echo "Failures: ${{ steps.run_tests.outputs.failures }}" >> summary.md
-          echo "Errors: ${{ steps.run_tests.outputs.errors }}" >> summary.md
-          echo "Skipped: ${{ steps.run_tests.outputs.skipped }}" >> summary.md
-          cat mvn_output.log >> summary.md
-          echo "Results can be found in the Allure Report." >> summary.md
-
-      - name: Upload Summary
+      # Opcional: publicar o summary.md como artefato
+      - name: Upload Test Summary
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-summary
-          path: summary.md
+          path: api_tests/summary.md
