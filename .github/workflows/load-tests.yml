@@ -17,11 +17,15 @@ jobs:
         run: |
           K6_VERSION="0.54.0"  # Substitua pela versão desejada
           curl -L -o k6.tar.gz https://github.com/grafana/k6/releases/download/v$K6_VERSION/k6-linux-amd64.tar.gz
+          
           # Verifica se o download foi bem-sucedido
           if [[ ! -f k6.tar.gz ]]; then
             echo "Erro ao baixar o K6"
             exit 1
           fi
+
+          # Adiciona um comando para verificar o conteúdo do arquivo
+          file k6.tar.gz
 
       - name: Extrair e instalar K6
         run: |
