@@ -13,26 +13,10 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
-      - name: Baixar K6
+      - name: Executar teste de carga no K6 Cloud
         run: |
-          echo "Baixando a última versão do K6..."
-          curl -sSL https://github.com/grafana/k6/releases/latest/download/k6-linux-amd64.tar.gz -o k6.tar.gz
-          
-          # Verifica se o download foi bem-sucedido
-          if [[ ! -f k6.tar.gz ]]; then
-            echo "Erro ao baixar o K6"
-            exit 1
-          fi
+          echo "Executando teste de carga com K6 Cloud..."
+          k6 cloud run --local-execution load_tests/script.js
 
-          # Adiciona um comando para verificar o conteúdo do arquivo
-          file k6.tar.gz
-
-      - name: Extrair e instalar K6
-        run: |
-          tar -xzf k6.tar.gz
-          sudo install k6 /usr/local/bin/
-
-      - name: Executar teste de carga
-        run: |
-          cd load_tests
-          k6 run load_test.js
+          # Se você quiser desativar o upload do arquivo de teste
+          # k6 cloud run --local-execution --no-archive-upload load_tests/script.js
