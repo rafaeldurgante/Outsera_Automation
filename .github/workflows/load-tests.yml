@@ -13,17 +13,7 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
-      - name: Instalar K6
+      - name: Executar teste de carga com K6
         run: |
-          echo "Instalando K6..."
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository ppa:kan-zhang/k6
-          sudo apt-get update
-          sudo apt-get install -y k6
-
-      - name: Executar teste de carga
-        run: |
-          echo "Navegando até a pasta de testes e executando o teste de carga..."
-          cd ~/Desktop/DURGA/Outsera/Outsera_Automation_Suite/load_tests
-          k6 run load_test.js
+          echo "Executando o teste de carga com K6..."
+          docker run --rm -v ${{ github.workspace }}:/scripts loadimpact/k6 run /scripts/load_tests/load_test.js
