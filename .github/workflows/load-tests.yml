@@ -1,24 +1,29 @@
-name: Run Load Tests
+name: Run Load Tests with K6
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
 jobs:
   load-tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      - name: Set up K6
+      - name: Update APT and install K6
         run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:grafana/k6
           sudo apt-get update
           sudo apt-get install -y k6
 
-      - name: Run Load Test
+      - name: Run load tests
         run: |
           cd load_tests
           k6 run load_test.js
