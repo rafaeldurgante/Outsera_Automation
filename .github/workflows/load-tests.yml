@@ -20,8 +20,11 @@ jobs:
 
       - name: Instalar K6
         run: |
-          # Baixar a versão mais recente do K6
+          # Obter a versão mais recente do K6
           LATEST=$(curl -s https://api.github.com/repos/grafana/k6/releases/latest | jq -r .tag_name)
+          echo "Baixando K6 versão: $LATEST"
+          
+          # Baixar o K6
           wget https://github.com/grafana/k6/releases/download/$LATEST/k6-linux-amd64.tar.gz
 
           # Extrair o arquivo
