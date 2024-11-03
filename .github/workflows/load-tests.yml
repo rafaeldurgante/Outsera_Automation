@@ -13,8 +13,11 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
-      - name: Instalar K6
+      - name: Instalar Dependências
         run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:graphite-project/graphite
           sudo apt-get update
           sudo apt-get install -y k6
 
