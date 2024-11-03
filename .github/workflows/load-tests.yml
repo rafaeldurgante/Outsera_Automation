@@ -13,6 +13,12 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
+      - name: Instalar K6
+        run: |
+          echo "Instalando K6..."
+          curl -sSL https://github.com/grafana/k6/releases/latest/download/k6-linux-amd64.tar.gz | tar -xz
+          sudo mv k6 /usr/local/bin/
+
       - name: Executar teste de carga no K6 Cloud
         run: |
           echo "Executando teste de carga com K6 Cloud..."
