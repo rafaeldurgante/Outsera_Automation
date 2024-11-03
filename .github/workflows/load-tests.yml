@@ -1,0 +1,24 @@
+name: Run Load Tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  load-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up K6
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run Load Test
+        run: |
+          cd load_tests
+          k6 run load_test.js
