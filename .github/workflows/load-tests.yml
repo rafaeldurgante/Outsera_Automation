@@ -13,29 +13,10 @@ jobs:
       - name: Checar o código
         uses: actions/checkout@v2
 
-      - name: Instalar dependências
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl jq
-
       - name: Instalar K6
         run: |
-          # Definir uma versão específica do K6
-          VERSION="v0.50.0"  # Substitua por uma versão válida
-          
-          echo "Baixando K6 versão: $VERSION"
-          
-          # Baixar o K6
-          wget https://github.com/grafana/k6/releases/download/$VERSION/k6-linux-amd64.tar.gz
-          
-          # Extrair o arquivo
-          tar -xvzf k6-linux-amd64.tar.gz
-          
-          # Mover o binário para o diretório de binários
-          sudo mv k6 /usr/local/bin/
-          
-          # Verificar a instalação
-          k6 version
+          sudo apt-get update
+          sudo apt-get install -y k6
 
       - name: Executar teste de carga
         run: |
