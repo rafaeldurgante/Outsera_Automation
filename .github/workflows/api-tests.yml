@@ -21,6 +21,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Install Allure
+        run: |
+          sudo apt-get install -y wget unzip || true
+
       - name: Run API tests
         run: |
           cd api_tests
@@ -30,27 +34,3 @@ jobs:
         run: |
           cd api_tests
           allure serve allure-results
-
-      - name: Add Summary of Tests
-        run: |
-          cd api_tests
-          mvn test -Dmaven.test.failure.ignore=true
-          if [ -f target/surefire-reports/*.txt ]; then
-            echo "## Test Summary" >> summary.md
-            echo "" >> summary.md
-            for file in target/surefire-reports/*.txt; do
-              echo "### Results from $file" >> summary.md
-              cat "$file" >> summary.md
-              echo "" >> summary.md
-            done
-            echo "Summary created at summary.md"
-          else
-            echo "No test results found."
-          fi
-
-      - name: Upload Test Summary
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-summary
-          path: api_tests/summary.md
